@@ -34,5 +34,32 @@ namespace Alura.Estacionamento.Tests
             //Assert
             Assert.Equal(2, faturamento);
         }
+
+        [Theory]
+        [InlineData("André Silva", "ASD-1498", "Preto", "Gol")]
+        [InlineData("José Silva", "POL-9242", "Cinza", "Fusca")]
+        [InlineData("Maria Silva", "GDR-6524", "Azul", "Opala")]
+        [InlineData("Pedro Silva", "GDR-0101", "Azul", "Corsa")]
+        public void ValidaFaturamentoComVariosVeiculos(string proprietario, string placa, string cor, string modelo)
+        {
+            //Arrange
+            var estacionamento = new Patio();
+            var veiculo = new Veiculo()
+            {
+                Proprietario = proprietario,
+                Placa = placa,
+                Cor = cor,
+                Modelo = modelo
+            };
+
+            estacionamento.RegistrarEntradaVeiculo(veiculo);
+            estacionamento.RegistrarSaidaVeiculo(placa);
+
+            //Act
+            double faturamento = estacionamento.TotalFaturado();
+
+            //Assert
+            Assert.Equal(2, faturamento);
+        }
     }
 }
